@@ -3,7 +3,10 @@ import App from "./App";
 
 // This file contains testing code.
 /*
+  - 'test()' function is GLOBALLY available. We don't need to import it.
+
   - 'test()'  function takes in two arguments. 
+  
   - FIRST argument is a description of the test 
       (up to us, can be anything. It helps us identify this test in the testing output)
 
@@ -14,7 +17,7 @@ test("renders learn react link", () => {
   /* 
       - 'render()' function is provided to us by the 'testing-library/react' library
 
-      - which renders the component it receives as an argument in our simulated/virtual environment created by the 'testing-library/react' library.
+      - which renders the React component it receives as an argument in our simulated/virtual environment created by the 'testing-library/react' library.
   */
   render(<App />);
 
@@ -24,10 +27,15 @@ test("renders learn react link", () => {
       - so here we are looking for an element with text of 'learn react'. '/learn react/i' => the 'i' means ignore caps, so in a case INSENSITIVE way.
       
       - '/learn react/i' is a 🌟 REGULAR expression 🌟
+
+      - 'screen' object gives us access to the Virtual/simulated DOM that was rendered by 'testing-library/react' library. 
+              where we can use different methods on it to get access to elements in that Virtual DOM.
   */
   const linkElement = screen.getByText(/learn react/i);
 
   /* 
+
+      - 'expect()' is globally available, to which we can pass the element we are testing
       - checks if that element in is the document, ie: if it was rendered in the document.
       
       - This test will FAIL if the element is NOT found.
