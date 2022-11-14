@@ -8,14 +8,14 @@ import Greetings from "./Greetings";
 /* ⭐⭐ When writing a test we typically want to do THREE things (Three A's):
 
       1. FIRST, we want to 'Arrange'  ->  which means that we want to render the component that we want to test.    
-                                                        [We can also do additional setup work if it required, like setup the test data, test conditions, and test environment]
+                    [We can also do additional setup work if it required, like setup the test data, test conditions, and test environment]
 
       2. SECOND, we want to 'Act'  ->  which means that we want to DO the thing that we want to actually test.
                                             For example if we want to simulate a button click, then we need to get that button from the DOM and then click it from our test code. 
-                                                        [Run logic that should be tested. ie: execute function]
+                    [Run logic that should be tested. ie: execute function]
 
       3. THIRD (last), we want to 'Assert' the results  ->  which means that we want have a look at the output thats visible in the browser, for example, and then see if that matches our expectation.
-                                                        [compare execution results with expected results]
+                    [compare execution results with expected results]
 */
 // -------------------------------
 
@@ -24,6 +24,8 @@ import Greetings from "./Greetings";
 describe("Greeting Component Test Suite", () => {
   test("renders 'Hello World' as a text", () => {
     // ---- First step   ->   'Arrange'
+
+    // Side note 📝: 'render()' function renders the '<Greetings/>' components along with any Custom Child components it might have as children. ie: it render the entire <Greetings/>' component tree.
     render(<Greetings />);
 
     // ---- Second step   ->   'Act'

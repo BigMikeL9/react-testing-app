@@ -1,5 +1,6 @@
 import "./App.css";
 import Greetings from "./components/Greetings/Greetings";
+import Posts from "./components/Posts/Posts";
 
 function App() {
   return (
@@ -16,6 +17,10 @@ function App() {
           Learn React
         </a>
       </header>
+
+      <main>
+        <Posts />
+      </main>
     </div>
   );
 }
