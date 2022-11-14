@@ -2,6 +2,7 @@
 // ---- Writing a Test ----
 
 import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import Greetings from "./Greetings";
 
 /* ⭐⭐ When writing a test we typically want to do THREE things (Three A's):
@@ -19,8 +20,9 @@ import Greetings from "./Greetings";
 // -------------------------------
 
 // Creating a 'Test Suite' using the 'describe()' function
+// -- Side Note: When naming Test Suites and Tests, use names that would form full descriptive sentences when combined, ie: 'Greeting Component Test Suite [Test Suite name], renders Hello World as a text [test name]'
 describe("Greeting Component Test Suite", () => {
-  test("Renders Hello World as a text", () => {
+  test("renders 'Hello World' as a text", () => {
     // ---- First step   ->   'Arrange'
     render(<Greetings />);
 
@@ -29,14 +31,74 @@ describe("Greeting Component Test Suite", () => {
 
     // ---- Third step   ->   'Assert'
 
-    /* Three types of methods we can use on 'screen' object are to get elements we want to test in Virtual DOM:
+    /* ⭐⭐⭐ Three types of methods we can use on 'screen' object are to get elements we want to test in Virtual DOM:
                           [Main difference between them is when these functions throw error and if they return a promise or not]
                   - 'get...' methods   ->   WILL throw an Error if an element is NOT found. 
                   - 'query...' methods   ->   WONT throw an error if an element is not found.
-                  - 'find...' methods   ->   will return a promise, if an element will eventually be on the screen.
+                  - 'find...' methods   ->   will return a promise. Use if an element will EVENTUALLY be on the screen.
         */
     // SIDE NOTE 📝:  'getByText()' looks for an EXACT match by default so if element is rendered with 'Hello world!'  then test will fail since text casing doesn't match and there is an exclamation mark.
     const helloWorldElement = screen.getByText("Hello World", { exact: false });
     expect(helloWorldElement).toBeInTheDocument();
+  });
+
+  //  ----------------------
+  // ANOTHER test for the 'Greetings.js' file.
+  test("renders 'Greetings There!! 😁' text, if the button was NOT clicked", () => {
+    // ---- 'Arrange'
+    render(<Greetings />);
+
+    // ---- 'Act'
+
+    // ---- 'Assert'
+    const descriptionElement = screen.getByText("Greetings There!!", {
+      exact: false,
+    });
+    expect(descriptionElement).toBeInTheDocument();
+  });
+
+  //  ----------------------
+  // Another Test
+  test("renders 'Greeting description was UPDATED' text, if button WAS clicked", () => {
+    // ---- 'Arrange'
+    render(<Greetings />);
+
+    // ---- 'Act'
+    const buttonElement = screen.getByRole("button");
+
+    // 'userEvent' is an Object provided to us by '"@testing-library/user-event'
+    // It lets us trigger userEvents in the virtual screen. ie: lets us simulate a button click, for instance.
+
+    userEvent.click(buttonElement);
+
+    // ---- 'Assert'
+    const descriptionText = screen.getByText(
+      "Greeting description was UPDATED",
+      { exact: false }
+    );
+    expect(descriptionText).toBeInTheDocument();
+  });
+
+  //  ----------------------
+  // Another Test
+  test("check if 'Greetings There!! 😁' description text is NOT in document, once we click the button", () => {
+    // ---- 'Arrange'
+    render(<Greetings />);
+
+    // ---- 'Act'
+    const buttonElement = screen.getByRole("button");
+    userEvent.click(buttonElement);
+
+    // ---- 'Assert'
+    // Remember 'query...' methods dont throw an error if the element is not found. Returns 'null' if element is not found.
+    const removedDescriptionElement = screen.queryByText(
+      "Greetings There!! 😁",
+      {
+        exact: false,
+      }
+    );
+
+    expect(removedDescriptionElement).not.toBeInTheDocument();
+    // expect(removedDescriptionElement).toBeNull();
   });
 });
