@@ -7,21 +7,30 @@ const Posts = () => {
 
   useEffect(() => {
     const fetchPosts = async () => {
-      try {
-        const response = await fetch(
-          "https://jsonplaceholder.typicode.com/posts"
-        );
+      const response = await fetch(
+        "https://jsonplaceholder.typicode.com/posts"
+      );
 
-        if (!response.ok) throw new Error("Something went wrong!! 😢");
+      const data = await response.json();
 
-        const data = await response.json();
+      const transformedData = data.slice(0, 10);
+      setPosts(transformedData);
 
-        const transformedData = data.slice(0, 10);
-        setPosts(transformedData);
-      } catch (error) {
-        console.log(error.message);
-        console.log(error.cause);
-      }
+      // try {
+      //   const response = await fetch(
+      //     "https://jsonplaceholder.typicode.com/posts"
+      //   );
+
+      //   if (!response.ok) throw new Error("Something went wrong!! 😢");
+
+      //   const data = await response.json();
+
+      //   const transformedData = data.slice(0, 10);
+      //   setPosts(transformedData);
+      // } catch (error) {
+      //   console.log(error.message);
+      //   console.log(error.cause);
+      // }
     };
 
     fetchPosts();

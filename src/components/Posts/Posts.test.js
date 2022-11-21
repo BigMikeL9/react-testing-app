@@ -7,6 +7,25 @@ import Posts from "./Posts";
 describe("Posts component Test suite", () => {
   test("renders posts if request succeeds", async () => {
     // ---- 'Arrange'
+    /* ⭐ IMPORTANT  -> 
+    
+    - Overriding the built-in 'fetch()' component in the 'Posts.js' component with a 'MOCK' function that doesn't actually send a request to our server. (ONLY in the testing code)
+    
+    - 'fn()' method which is available on the globally available 'jest' object, lets us create a 'mock'/dummy function.  
+    - This 'mock' function have additional features we can use than its original function 
+    */
+
+    window.fetch = jest.fn();
+
+    // 'mockResolvedValueOnce()' method on the 'mock' function we created, lets us set a value that the 'mock' fetch function should resolve to when ot gets called. So it should resolve to something that is expected in our 'Posts.js' component to render the posts.
+    window.fetch.mockResolvedValueOnce({
+      json: async () => [
+        { id: "p1", title: "First Post", body: "LULULULULULL" },
+      ],
+    });
+
+    // window.fetch.mockRejectedValue(new Error("Async error message"));
+
     render(<Posts />);
 
     // ---- 'Act'
